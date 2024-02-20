@@ -13,3 +13,21 @@ app.use(router);
 app.listen(3000, () => {
   console.log('listening on port 3000'); //
 });
+
+// Example
+class Server {
+  app: express.Express = express();
+
+  constructor() {
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(cookieSession({ keys: ['any string'] }));
+    this.app.use(router);
+  }
+  start(): void {
+    this.app.listen(3000, () => {
+      console.log('listening on port 3000'); //
+    });
+  }
+}
+
+new Server().start();
