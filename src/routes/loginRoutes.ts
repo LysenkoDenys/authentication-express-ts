@@ -4,46 +4,9 @@ interface RequestWithBody extends Request {
   body: { [key: string]: string | undefined };
 }
 
-//create new middleware:
-function requireAuth(req: Request, res: Response, next: NextFunction): void {
-  if (req.session && req.session.loggedIn) {
-    next();
-    return;
-  }
-  res.status(403);
-  res.send('Not permitted');
-}
-
 // initialize our router:
 const router = Router();
 
-router.get('/', (req: Request, res: Response) => {
-  // req session
-  if (req.session && req.session.loggedIn) {
-    res.send(`
-      <div>You are logged in</div>
-      <a href='/logout'>Logout</a>
-    `);
-  } else {
-    res.send(`
-    <div>You are NOT logged in</div>
-    <a href='/login'>Login</a>
-  `);
-  }
-});
-
-router.get('/logout', (req: Request, res: Response) => {
-  // req session
-  if (req.session && req.session.loggedIn) {
-    //reset session:
-    req.session = undefined;
-    res.redirect('/');
-  }
-});
-
-router.get('/protected', requireAuth, (req: Request, res: Response) => {
-  res.send(`<h1>Welcome to protected route, logged in user</h1>`);
-});
 export { router };
 
 // // EXAMPLE:

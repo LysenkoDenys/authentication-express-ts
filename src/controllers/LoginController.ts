@@ -4,7 +4,6 @@ import { get, controller, bodyValidator, post } from './decorators';
 @controller('/auth')
 class LoginController {
   @get('/login')
-
   // req - request, res - response:
   getLogin(req: Request, res: Response): void {
     res.send(`
@@ -34,6 +33,16 @@ class LoginController {
       res.redirect('/');
     } else {
       res.send('Invalid email or password');
+    }
+  }
+
+  @get('/logout')
+  getLogout(req: Request, res: Response) {
+    // req session
+    if (req.session && req.session.loggedIn) {
+      //reset session:
+      req.session = undefined;
+      res.redirect('/');
     }
   }
 }
